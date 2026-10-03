@@ -2,12 +2,6 @@
 
 **Version 2.2.0**
 
-## Development
-
-The initial toolkit and automation workflow were developed by
-[Atharva Gado](https://github.com/Atharva-Gado) for cross-flow-turbine research
-in the Computational Flow Physics and Modeling Lab at the University of Wisconsin–Madison.
-
 A JSON-driven workflow for repeatable OpenFOAM parameter campaigns:
 
 `validate → generate → submit → monitor → post-process → summarize`
@@ -303,3 +297,11 @@ python3 scripts/run_campaign.py examples/demo_campaign.json
 The demo creates synthetic two-cycle force histories and exercises the same
 generation, post-processing, report, and plotting paths without OpenFOAM or
 Slurm.
+
+## Development
+
+The initial toolkit and automation workflow were developed by
+[Atharva Gado](https://github.com/Atharva-Gado) for cross-flow-turbine research
+in the **Computational Flow Physics and Modeling Lab** at the **University of Wisconsin–Madison**.
+
+
