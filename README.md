@@ -2,7 +2,11 @@
 
 **Version 2.2.0**
 
-Developed by **Atharva Gado** for research workflows in the **Franck Lab at the University of Wisconsin–Madison**.
+## Development
+
+The initial toolkit and automation workflow were developed by
+[Atharva Gado](https://github.com/Atharva-Gado) for cross-flow-turbine research
+in the Computational Flow Physics and Modeling Lab at the University of Wisconsin–Madison.
 
 A JSON-driven workflow for repeatable OpenFOAM parameter campaigns:
 
