@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "preset": "cft_slurm",
+  "name": "my_campaign",
+
+  "paths": {
+    "base_case": "../base_cases/my_base_case",
+    "mesh": "../meshes/my_mesh/polyMesh",
+    "campaigns_root": "../campaigns",
+    "figures_root": "../figures"
+  },
+
+  "global_parameters": {
+    "U_inf": 1.0,
+    "chord": 1.0,
+    "radius": 2.06509248,
+    "span_ratio": 0.2,
+    "rho": 1.0,
+    "cycles": 5,
+    "cores": 8,
+    "walltime": "4-00:00:00",
+    "run_script": "par_run.sh"
+  },
+
+  "cases": [
+    {"Re": 100000, "TSR": 1.5}
+  ]
+}

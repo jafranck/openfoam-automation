@@ -1,0 +1,9 @@
+FoamFile
+{
+    format      ascii;
+    class       dictionary;
+    object      controlDict;
+}
+
+startTime       0;
+endTime         1;

@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+python3 - <<'PY'
+import math
+import re
+from pathlib import Path
+
+omega_text = Path("constant/dynamicMeshDict").read_text()
+control_text = Path("system/controlDict").read_text()
+omega = float(re.search(r"\bomega\s+([-+0-9.eE]+)\s*;", omega_text).group(1))
+end_time = float(re.search(r"\bendTime\s+([-+0-9.eE]+)\s*;", control_text).group(1))
+
+force_dir = Path("postProcessing/forces_foil1/0")
+force_dir.mkdir(parents=True, exist_ok=True)
+output_dir = Path("output")
+output_dir.mkdir(parents=True, exist_ok=True)
+
+force_lines = ["# Time forces(pressure viscous porous) moments(pressure viscous porous)"]
+log_lines = []
+samples = 145
+for index in range(samples):
+    time_value = end_time * index / (samples - 1)
+    angle = omega * time_value
+    fpx = math.sin(angle)
+    fpy = 0.6 * math.cos(angle)
+    mvz = 0.2 + 0.05 * math.sin(angle - 0.25)
+    values = [
+        time_value,
+        fpx, fpy, 0.0,
+        0.05 * fpx, 0.05 * fpy, 0.0,
+        0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0,
+        0.0, 0.0, mvz,
+        0.0, 0.0, 0.0,
+    ]
+    force_lines.append(
+        f"{values[0]:.12g} "
+        f"(({values[1]:.12g} {values[2]:.12g} {values[3]:.12g}) "
+        f"({values[4]:.12g} {values[5]:.12g} {values[6]:.12g}) "
+        f"({values[7]:.12g} {values[8]:.12g} {values[9]:.12g})) "
+        f"(({values[10]:.12g} {values[11]:.12g} {values[12]:.12g}) "
+        f"({values[13]:.12g} {values[14]:.12g} {values[15]:.12g}) "
+        f"({values[16]:.12g} {values[17]:.12g} {values[18]:.12g}))"
+    )
+    log_lines.extend(
+        [
+            f"Time = {time_value:.12g}",
+            "Courant Number mean: 0.11 max: 0.42",
+            "smoothSolver: Solving for Ux, Initial residual = 1e-05, Final residual = 1e-08, No Iterations 2",
+        ]
+    )
+
+(force_dir / "forces.dat").write_text("\n".join(force_lines) + "\n")
+(output_dir / "foamout").write_text("\n".join(log_lines) + "\n")
+PY

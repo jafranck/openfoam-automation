@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Editors and operating systems
+.DS_Store
+.vscode/
+.idea/
+*~
+
+# OpenFOAM runtime output
+processor*/
+postProcessing/
+output/
+log.*
+slurm.out
+slurm-*.out
+core
+core.*
+
+# Private inputs and generated campaign data
+base_cases/*
+!base_cases/README.md
+
+meshes/*
+!meshes/README.md
+
+campaigns/*
+!campaigns/README.md
+
+figures/*
+!figures/README.md
+
+# Generated output from the public demo
+examples/demo_output/
+
+# Local environment files
+.env
+.env.*
+!.env.example

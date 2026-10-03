@@ -1,0 +1,105 @@
+{
+  "schema_version": 2,
+  "name": "demo_campaign",
+  "paths": {
+    "base_case": "demo_base_case",
+    "mesh": "demo_mesh/polyMesh",
+    "campaigns_root": "demo_output/campaigns",
+    "figures_root": "demo_output/figures"
+  },
+  "parameters": {
+    "Re": [
+      100000
+    ],
+    "TSR": [
+      1.5,
+      2.0
+    ]
+  },
+  "constants": {
+    "U_inf": 1.0,
+    "chord": 1.0,
+    "radius": 2.06509248,
+    "span_ratio": 0.2,
+    "cycles": 2,
+    "cores": 2
+  },
+  "derived": {
+    "span": "span_ratio * chord",
+    "nu": "U_inf * chord / Re",
+    "omega": "TSR * U_inf / radius",
+    "period": "2 * pi / omega",
+    "end_time": "cycles * period"
+  },
+  "case_name": "Re_{Re:.0f}_TSR_{TSR:g}",
+  "case_setup": {
+    "mesh_destination": "constant/polyMesh",
+    "copy_ignore": [
+      "processor*",
+      "postProcessing",
+      "output",
+      "log.*",
+      "slurm-*.out",
+      "run_status.txt",
+      "submission.json"
+    ],
+    "foam_entries": [
+      {
+        "file": "constant/transportProperties",
+        "keyword": "nu",
+        "value": "{nu:.12g}"
+      },
+      {
+        "file": "constant/dynamicMeshDict",
+        "keyword": "omega",
+        "value": "{omega:.12g}"
+      },
+      {
+        "file": "system/controlDict",
+        "keyword": "endTime",
+        "value": "{end_time:.12g}"
+      },
+      {
+        "file": "system/decomposeParDict",
+        "keyword": "numberOfSubdomains",
+        "value": "{cores}"
+      }
+    ],
+    "literal_replacements": []
+  },
+  "scheduler": {
+    "type": "local",
+    "run_command": "./Allrun",
+    "solver_log": "output/foamout",
+    "launcher_log": "output/toolkit_launcher.log",
+    "completion_files": [
+      "postProcessing/forces_foil1/*/forces.dat"
+    ],
+    "failure_patterns": [
+      "FOAM FATAL ERROR"
+    ]
+  },
+  "postprocessing": {
+    "enabled": true,
+    "force_objects": [
+      "forces_foil1"
+    ],
+    "auto_discover_force_objects": false,
+    "cycles": "from_case",
+    "include_partial_cycles": true,
+    "complete_cycle_minimum_degrees": 350.0,
+    "angle_offset_degrees": 0.0,
+    "duplicate_time_tolerance": 1e-10,
+    "force_coefficient_denominator": "0.5 * U_inf**2 * chord",
+    "power_coefficient_denominator": "0.5 * U_inf**3 * span * radius",
+    "moment_axis": "z",
+    "plot_dpi": 120
+  },
+  "workflow": {
+    "automatic_finalization": false,
+    "poll_interval_seconds": 1
+  },
+  "limits": {
+    "max_cases": 100
+  }
+}

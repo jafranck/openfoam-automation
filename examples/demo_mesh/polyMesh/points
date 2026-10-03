@@ -1,0 +1,9 @@
+FoamFile
+{
+    format ascii;
+    class vectorField;
+    object points;
+}
+0
+(
+)

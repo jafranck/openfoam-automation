@@ -1,0 +1,9 @@
+FoamFile
+{
+    format ascii;
+    class polyBoundaryMesh;
+    object boundary;
+}
+0
+(
+)
