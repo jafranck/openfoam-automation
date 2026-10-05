@@ -6,7 +6,7 @@ A JSON-driven workflow for repeatable OpenFOAM parameter campaigns:
 
 `validate → generate → submit → monitor → post-process → summarize`
 
-The toolkit is designed for the Franck Lab cross-flow-turbine workflow, while
+The toolkit is designed for the CFPM Lab's cross-flow-turbine workflow, while
 keeping the case-generation and scheduler layers reusable for other OpenFOAM
 studies.
 
